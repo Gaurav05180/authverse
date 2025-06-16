@@ -41,7 +41,13 @@ public class TokenController {
         OAuthClient client = authCode.getClient();
         if (!client.getClientId().equals(client_id) || !client.getClientSecret().equals(client_secret)
                 || !client.getRedirectUri().equals(redirect_uri)) {
+
+            System.out.println("Client validation failed!");
+            System.out.println("Expected: " + client.getClientId() + " " + client.getClientSecret() + " " + client.getRedirectUri());
+            System.out.println("Got: " + client_id + " " + client_secret + " " + redirect_uri);
+
             response.put("error", "invalid_client_credentials");
+
             return response;
         }
 
@@ -52,6 +58,12 @@ public class TokenController {
         response.put("expires_in", 3600);
 
         codeRepo.delete(authCode); // Remove code once used (one-time use)
+
+        System.out.println("client_id: " + client_id);
+        System.out.println("client_secret: " + client_secret);
+        System.out.println("grant_type: " + grant_type);
+        System.out.println("code: " + code);
+        System.out.println("redirect_uri: " + redirect_uri);
 
         return response;
     }

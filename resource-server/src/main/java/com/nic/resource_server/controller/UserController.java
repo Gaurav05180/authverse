@@ -16,7 +16,8 @@ public class UserController {
 
     @GetMapping("/profile")
     public UserProfile getProfile(@AuthenticationPrincipal Jwt jwt) {
-        String username = jwt.getClaimAsString("username");
+        String username = jwt.getSubject();
+//        String username = jwt.getClaimAsString("username");
         String email = username + "@example.com";
         List<String> roles = jwt.getClaimAsStringList("roles");
         return new UserProfile(username, email, roles);
